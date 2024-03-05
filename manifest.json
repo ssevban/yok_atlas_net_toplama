@@ -3,7 +3,6 @@
     "version": "1.0",
     "manifest_version": 3,
     "action": {
-        "default_icon": "16.png",
         "default_title": "Yök Atlas Net Toplama"
     },
     "content_scripts": [
