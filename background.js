@@ -54,7 +54,7 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("lisans.php")) {
 
             else if (controlzone.includes("SÖZ")) {
                 setTimeout(function () {
-                 
+
 
                     var x = document.querySelector("#icerik_1210a > table > tbody").innerText
                     xarray = x.split('\t')
@@ -103,8 +103,6 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("onlisans.php")) {
             totaltyt = Number((totaltyt).toFixed(1))
 
             var totaltytstr = totaltyt.toString().substring(0, 5)
-            //console.log("TYT: " + totaltytstr)
-
 
             tytsonucfunc(totaltytstr)
 
@@ -112,15 +110,13 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("onlisans.php")) {
         }, 1200);
     }
 
-
 }
-
 
 // BURASI NETLERİ GÖSTEREN TABLO İÇİN (AYT)
 
 if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("netler-tablo.php")) {
-    console.log("we are in site that have table")
-
+    // console.log("we are in site that have table LOCAL")
+    // start butonu oluşturuyoruz
     let bttn = document.createElement("button")
     bttn.style["display"] = "block"
     bttn.style["width"] = "50px"
@@ -131,85 +127,85 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("netler-tablo.php")
     bttn.style["border-radius"] = "4px"
     bttn.style["font-family"] = "Helvetica"
     bttn.style["color"] = "#3c763d"
-    
     bttn.innerHTML = 'start'
     document.querySelector("body > div.row > div.container > div > div").appendChild(bttn)
-    
 
-    if (document.querySelector("#mydata > thead > tr:nth-child(1)").innerText.split("\t").length=14 && (document.querySelector("body > div.row > div.row > div.row > div.container > div.panel.panel-info > div > h2").innerText.includes("SAY") || document.querySelector("body > div.row > div.row > div.row > div.container > div.panel.panel-info > div > h2").innerText.includes("EA"))){
-    bttn.addEventListener("click",myMain)
-    function myMain(){
-    //window.scrollTo(0, document.body.scrollHeight)
-    
-    //window.scrollTo(document.body.scrollHeight, 0)
-    //sitede bir kere butona basınca netleri id si sum olan bir div e yazıyoruz. bunu (id=sum olan div) daha önce oluşturmadıysak çalışacak
-    if (document.getElementById("sum")==null){
-    // kaç kayit gösterildiği
-    let shwkayit = document.querySelector("#mydata_info").innerText.split(" ")
-    shwkayit = +shwkayit[4]
-    let listone = []
-    let tabloBody = document.querySelector("#mydata > tbody").innerText
-    tabloBody = tabloBody.split("\n")
-    for (let elem of tabloBody){
-    
-    listone.push(elem.split("\t"));
+
+    if (document.querySelector("#mydata > thead > tr:nth-child(1)").innerText.split("\t").length = 14 && (document.querySelector("body > div.row > div.row > div.row > div.container > div.panel.panel-info > div > h2").innerText.includes("SAY") || document.querySelector("body > div.row > div.row > div.row > div.container > div.panel.panel-info > div > h2").innerText.includes("EA"))) {
+        bttn.addEventListener("click", myMain)
+        function myMain() {
+            //sitede bir kere butona basınca netleri id si sum olan bir div e yazıyoruz. bunu (id=sum olan div) daha önce oluşturmadıysak çalışacak
+            if (document.getElementById("sum") == null && document.querySelector("#mydata > tbody > tr:nth-child(1) > td.control").style[0] == "display") {
+                // kaç kayit gösterildiği. mesela 101 - 150 arasındaki kayıtları gösteriyorsa 150 - 101 + 1 = 50. shwkayit = 50 olacak
+                let shwkayit = document.querySelector("#mydata_info").innerText.split(" ")
+                shwkayit = +shwkayit[4] - +shwkayit[2] + 1
+                // BU Bİ YERLERDE HATA VERİYOR.
+                // let selectedIndex = document.querySelector("#mydata_length > label > select").selectedIndex
+                // let shwkayit = +document.querySelector("#mydata_length > label > select")[selectedIndex].innerText
+                // console.log(shwkayit)
+                let listone = []
+                let tabloBody = document.querySelector("#mydata > tbody").innerText
+                tabloBody = tabloBody.split("\n")
+
+                for (let elem of tabloBody) { listone.push(elem.split("\t")) }
+
+                const netlistesi = []
+                let table = document.querySelectorAll("#mydata td")
+
+                for (let i = 0; i < shwkayit; i++) {
+                    let tyt = 0
+                    let ayt = 0
+
+                    // BURADA 0.05 ÇIKARMASININ SEBEBİ, ÖNCEDEN SİTEDE 0.3 VE 0.8 İLE BİTEN NETLER 0.05 FAZLA GÖSTERİLİYORDU. MESELA 36.25 OLAN NET 36.3 OLARAK GÖSTERİLİYORDU. BU YÜZDEN 0.05 ÇIKARDIM
+                    //TYT
+                    if ((listone[i][6].endsWith(",3") || listone[i][6].endsWith(",8"))) { tyt += +listone[i][6].replace(",", ".") - 0.05 }
+                    else { tyt += +listone[i][6].replace(",", ".") }
+
+                    if ((listone[i][7].endsWith(",3") || listone[i][7].endsWith(",8"))) { tyt += +listone[i][7].replace(",", ".") - 0.05 }
+                    else { tyt += +listone[i][7].replace(",", ".") }
+
+                    if ((listone[i][8].endsWith(",3") || listone[i][8].endsWith(",8"))) { tyt += +listone[i][8].replace(",", ".") - 0.05 }
+                    else { tyt += +listone[i][8].replace(",", ".") }
+
+                    if ((listone[i][9].endsWith(",3") || listone[i][9].endsWith(",8"))) { tyt += +listone[i][9].replace(",", ".") - 0.05 }
+                    else { tyt += +listone[i][9].replace(",", ".") }
+
+                    //AYT
+                    if ((listone[i][10].endsWith(",3") || listone[i][10].endsWith(",8"))) { ayt += +listone[i][10].replace(",", ".") - 0.05 }
+                    else { ayt += +listone[i][10].replace(",", ".") }
+
+                    if ((listone[i][11].endsWith(",3") || listone[i][11].endsWith(",8"))) { ayt += +listone[i][11].replace(",", ".") - 0.05 }
+                    else { ayt += +listone[i][11].replace(",", ".") }
+
+                    if ((listone[i][12].endsWith(",3") || listone[i][12].endsWith(",8"))) { ayt += +listone[i][12].replace(",", ".") - 0.05 }
+                    else { ayt += +listone[i][12].replace(",", ".") }
+
+                    if ((listone[i][13].endsWith(",3") || listone[i][13].endsWith(",8"))) { ayt += +listone[i][13].replace(",", ".") - 0.05 }
+                    else { ayt += +listone[i][13].replace(",", ".") }
+
+                    //let tyt = (+listone[i][6].replace(",",".") + +listone[i][7].replace(",",".") + +listone[i][8].replace(",",".") + +listone[i][9].replace(",","."))
+                    //let ayt = (+listone[i][10].replace(",",".") + +listone[i][11].replace(",",".") + +listone[i][12].replace(",",".") + +listone[i][13].replace(",","."))
+                    //tyt = Number((tyt).toFixed(1))
+                    //ayt = Number((ayt).toFixed(1))
+                    netlistesi.push(`TYT: ${tyt} - AYT: ${ayt}`)
+                }
+                for (let i = 0; i < table.length / 15; i++) {
+                    let x = document.createElement("div")
+                    x.setAttribute("id", "sum")
+                    x.innerHTML = netlistesi[i]
+                    x.style["font-size"] = "11px"
+                    table[i * 15 + 1].appendChild(x)
+                    if (typeof (x) === 'undefined') {
+                        console.log(x)
+
+                    }
+                }
+            }
+            else {
+                console.log("sum div already created")
+                alert("Tüm netler sayfada gözükmüyor ise, solda + butonu var ise kod çalışmaz.\nTüm netler sayfada gözükmeli ya da netler zaten gösterildi, sayfayı yenileyin.")
+            }
+        }
     }
-
-
-    //let tyt = (+listone[0][6].replace(",",".") + +listone[0][7].replace(",",".") + +listone[0][8].replace(",",".") + +listone[0][9].replace(",","."))
-    //let ayt = (+listone[0][10].replace(",",".") + +listone[0][11].replace(",",".") + +listone[0][12].replace(",",".") + +listone[0][13].replace(",","."))
-    const netlistesi = []
-    let table = document.querySelectorAll("#mydata td")
-    let tyt = 0
-    let ayt = 0
-    for (let i=0;i<shwkayit;i++){
-        let tyt = 0
-        let ayt = 0
-
-        // BURADA 0.05 ÇIKARMASININ SEBEBİ, ÖNCEDEN SİTEDE 0.3 VE 0.8 İLE BİTEN NETLER 0.05 FAZLA GÖSTERİLİYORDU. MESELA 36.25 OLAN NET 36.30 OLARAK GÖSTERİLİYORDU. BU YÜZDEN 0.05 ÇIKARDIM
-        //TYT
-        if ((listone[i][6].endsWith(",3") || listone[i][6].endsWith(",8"))){tyt += +listone[i][6].replace(",",".")-0.05}
-        else {tyt += +listone[i][6].replace(",",".")}
-
-        if ((listone[i][7].endsWith(",3") || listone[i][7].endsWith(",8"))){tyt += +listone[i][7].replace(",",".")-0.05}
-        else{tyt += +listone[i][7].replace(",",".")}
-        
-        if ((listone[i][8].endsWith(",3") || listone[i][8].endsWith(",8"))){tyt += +listone[i][8].replace(",",".")-0.05}
-        else{tyt += +listone[i][8].replace(",",".")}
-        
-        if ((listone[i][9].endsWith(",3") || listone[i][9].endsWith(",8"))){tyt += +listone[i][9].replace(",",".")-0.05}
-        else{tyt += +listone[i][9].replace(",",".")}
-
-        //AYT
-        if ((listone[i][10].endsWith(",3") || listone[i][10].endsWith(",8"))){ayt += +listone[i][10].replace(",",".")-0.05}
-        else {ayt += +listone[i][10].replace(",",".")}
-
-        if ((listone[i][11].endsWith(",3") || listone[i][11].endsWith(",8"))){ayt += +listone[i][11].replace(",",".")-0.05}
-        else{ayt += +listone[i][11].replace(",",".")}
-        
-        if ((listone[i][12].endsWith(",3") || listone[i][12].endsWith(",8"))){ayt += +listone[i][12].replace(",",".")-0.05}
-        else{ayt += +listone[i][12].replace(",",".")}
-        
-        if ((listone[i][13].endsWith(",3") || listone[i][13].endsWith(",8"))){ayt += +listone[i][13].replace(",",".")-0.05}
-        else{ayt += +listone[i][13].replace(",",".")}
-
-
-        //let tyt = (+listone[i][6].replace(",",".") + +listone[i][7].replace(",",".") + +listone[i][8].replace(",",".") + +listone[i][9].replace(",","."))
-        //let ayt = (+listone[i][10].replace(",",".") + +listone[i][11].replace(",",".") + +listone[i][12].replace(",",".") + +listone[i][13].replace(",","."))
-        //tyt = Number((tyt).toFixed(1))
-        //ayt = Number((ayt).toFixed(1))
-        netlistesi.push(`TYT: ${tyt} - AYT: ${ayt}`)
 }
-
-        for (let i = 0;i<table.length/15;i++){
-        let x = document.createElement("div")
-        x.setAttribute("id","sum")
-        x.innerHTML = netlistesi[i]
-        x.style["font-size"]="11px"
-        table[i*15 +1].appendChild(x)
-        if (typeof(x) === 'undefined'){
-        console.log(x)
-
-    }
-}}}}}
 
