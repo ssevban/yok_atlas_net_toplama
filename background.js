@@ -41,8 +41,6 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("lisans.php")) {
 
                     var totaltytstr = totaltyt.toString()
                     var totalaytstr = totalayt.toString()
-                    /*console.log("TYT: " + totaltytstr)
-                    console.log("AYT: " + totalaytstr)*/
 
                     sonuc(totaltytstr, totalaytstr)
 
@@ -58,7 +56,6 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("lisans.php")) {
 
                     var x = document.querySelector("#icerik_1210a > table > tbody").innerText
                     xarray = x.split('\t')
-                    //console.log(xarray)
                     totaltyt = parseFloat(xarray[5].replace(",", ".")) + parseFloat(xarray[7].replace(",", ".")) + parseFloat(xarray[9].replace(",", ".")) + parseFloat(xarray[11].replace(",", "."))
                     totalayt = parseFloat(xarray[13].replace(",", ".")) + parseFloat(xarray[15].replace(",", ".")) + parseFloat(xarray[17].replace(",", ".")) + parseFloat(xarray[19].replace(",", ".")) + parseFloat(xarray[21].replace(",", ".")) + parseFloat(xarray[23].replace(",", ".")) + parseFloat(xarray[25].replace(",", "."))
                     totaltyt = Number((totaltyt).toFixed(1))
@@ -66,8 +63,6 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("lisans.php")) {
 
                     var totaltytstr = totaltyt.toString()
                     var totalaytstr = totalayt.toString()
-                    /*console.log("TYT: " + totaltytstr.substring(0, 5))
-                    console.log("AYT: " + totalaytstr.substring(0, 5))*/
                     sonuc(totaltytstr, totalaytstr)
                 }, 1200);
             }
@@ -115,7 +110,6 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("onlisans.php")) {
 // BURASI NETLERİ GÖSTEREN TABLO İÇİN (AYT)
 
 if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("netler-tablo.php")) {
-    // console.log("we are in site that have table LOCAL")
     // start butonu oluşturuyoruz
     let bttn = document.createElement("button")
     bttn.style["display"] = "block"
@@ -139,10 +133,7 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("netler-tablo.php")
                 // kaç kayit gösterildiği. mesela 101 - 150 arasındaki kayıtları gösteriyorsa 150 - 101 + 1 = 50. shwkayit = 50 olacak
                 let shwkayit = document.querySelector("#mydata_info").innerText.split(" ")
                 shwkayit = +shwkayit[4] - +shwkayit[2] + 1
-                // BU Bİ YERLERDE HATA VERİYOR.
-                // let selectedIndex = document.querySelector("#mydata_length > label > select").selectedIndex
-                // let shwkayit = +document.querySelector("#mydata_length > label > select")[selectedIndex].innerText
-                // console.log(shwkayit)
+               
                 let listone = []
                 let tabloBody = document.querySelector("#mydata > tbody").innerText
                 tabloBody = tabloBody.split("\n")
@@ -183,10 +174,6 @@ if (site.includes("yokatlas.yok.gov.tr") && siteurl.includes("netler-tablo.php")
                     if ((listone[i][13].endsWith(",3") || listone[i][13].endsWith(",8"))) { ayt += +listone[i][13].replace(",", ".") - 0.05 }
                     else { ayt += +listone[i][13].replace(",", ".") }
 
-                    //let tyt = (+listone[i][6].replace(",",".") + +listone[i][7].replace(",",".") + +listone[i][8].replace(",",".") + +listone[i][9].replace(",","."))
-                    //let ayt = (+listone[i][10].replace(",",".") + +listone[i][11].replace(",",".") + +listone[i][12].replace(",",".") + +listone[i][13].replace(",","."))
-                    //tyt = Number((tyt).toFixed(1))
-                    //ayt = Number((ayt).toFixed(1))
                     netlistesi.push(`TYT: ${tyt} - AYT: ${ayt}`)
                 }
                 for (let i = 0; i < table.length / 15; i++) {
